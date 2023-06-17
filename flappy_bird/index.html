@@ -10,10 +10,7 @@
         <img id="head" src="img/head.png">
         <div id="btu" onclick="start()"><img src="img\ok.png"></div>
         <img id="Mybird" src="img/bird.gif">
-<<<<<<< HEAD
         <div id="Scorebox"><img src="img\0.png"></div>
-=======
->>>>>>> 8dd342c6fe8b6aa37596f70ec56706af0fc89c0b
     </div>
 </body>
 
@@ -61,18 +58,12 @@
     }
 
     #btu {
-<<<<<<< HEAD
         width: 384px;
         height: 132px;
-=======
-        width: 192px;
-        height: 66px;
->>>>>>> 8dd342c6fe8b6aa37596f70ec56706af0fc89c0b
         position: relative;
         left: 300px;
     }
 
-<<<<<<< HEAD
     #Scorebox {
         position: absolute;
         text-align: center;
@@ -82,8 +73,6 @@
         z-index: 5;
     }
 
-=======
->>>>>>> 8dd342c6fe8b6aa37596f70ec56706af0fc89c0b
 </style>
 
 <script type="text/javascript">
@@ -100,15 +89,6 @@
     static_block_id = 0;//柱id
     class Block1 {
         id = "block1";
-<<<<<<< HEAD
-=======
-        x = 1000;
-        type = 1;
-        height = 0;
-    }
-    class Block2 {
-        id = "block2";
->>>>>>> 8dd342c6fe8b6aa37596f70ec56706af0fc89c0b
         x = 1000;
         type = 1;
         height = 0;
@@ -123,7 +103,6 @@
     jBlock_list = []
     live_Block_list = []
     loop_time = 0//初始时间
-<<<<<<< HEAD
     Mybird.style.display = 'none'
     score = 0 ;//分数
 
@@ -139,9 +118,6 @@
         head.style.display = 'none';
         Mybird.style.display = 'block';
     }
-=======
-    Mybird.style.display = 'none';
->>>>>>> 8dd342c6fe8b6aa37596f70ec56706af0fc89c0b
 
     function main_loop() {
         loop_time += 1;
@@ -219,7 +195,6 @@
         game_board.appendChild(cb)
     }
 
-<<<<<<< HEAD
     //碰撞检测
     function crash(a,b) {
         var l1 = a.offsetLeft;
@@ -265,8 +240,6 @@
             }
         }
     }
-=======
->>>>>>> 8dd342c6fe8b6aa37596f70ec56706af0fc89c0b
 
     function jump(evnet) {
         mybird.v = mybird_jump_v;
@@ -274,15 +247,6 @@
     function render() {
         bird.style.top = String(mybird.y) + 'px';
     }//设置鸟高度
-<<<<<<< HEAD
-=======
-    function start(event) {
-        setInterval(main_loop, render_frequecy);
-        btu.style.display = 'none';
-        head.style.display = 'none';
-        Mybird.style.display = 'block';
-    }
->>>>>>> 8dd342c6fe8b6aa37596f70ec56706af0fc89c0b
     
 </script>
 
