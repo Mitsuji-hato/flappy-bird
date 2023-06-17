@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>flappy bird</title>
+</head>
+
+<body>
+    <div id="gameboard" onclick="jump()">
+        <img id="head" src="img/head.png">
+        <div id="btu" onclick="start()"><img src="img\ok.png"></div>
+        <img id="Mybird" src="img/bird.gif">
+        <div id="Scorebox"><img src="img\0.png"></div>
+    </div>
+</body>
+
+<script src="setting.js" type="text/javascript"></script>
+
+<style>
+    #gameboard {
+        width: 50%;
+        height: 750px;
+        background-image: url(img/back.png);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .block1 {
+        position: absolute;
+        background-position-y: bottom;
+        left: 1000px;
+        width: 52px;
+        height: 600px;
+        background-image: url(img/pipe2.png);
+    }
+    .block2 {
+        position: absolute;
+        left: 1000px;
+        width: 52px;
+        height: 600px;
+        bottom:0;
+        background-image: url(img/pipe1.png);
+    }
+
+    #Mybird {
+        position: absolute;
+        width: 50px;
+        height: 35px;
+        left: 200px;
+        border-radius: 200px;
+    }
+
+    #head {
+        width: 600px;
+        height: 500px;
+        position: relative;
+        left: 55px;
+    }
+
+    #btu {
+        width: 384px;
+        height: 132px;
+        position: relative;
+        left: 300px;
+    }
+
+    #Scorebox {
+        position: absolute;
+        text-align: center;
+        left: 50%;
+        font-weight: bolder;
+        display: none;
+        z-index: 5;
+    }
+
+</style>
+
+<script type="text/javascript">
+    var treelist = []
+    var bird = document.getElementById('Mybird')
+    var game_board = document.getElementById('gameboard')
+    var scorebox = document.getElementById('Scorebox')
+    var mybird = {
+        y: mybird_default_y,
+        v: 0,
+        g: mybird_default_g,
+    };
+
+    static_block_id = 0;//柱id
+    class Block1 {
+        id = "block1";
+        x = 1000;
+        type = 1;
+        height = 0;
+    }
+    class Block2 {
+        id = "block2";
+        x = 1000;
+        type = 1;
+        height = 0;
+    }
+
+    jBlock_list = []
+    live_Block_list = []
+    loop_time = 0//初始时间
+    Mybird.style.display = 'none'
+    score = 0 ;//分数
+
+    function start(event) {
+        jBlock_list = []
+        live_Block_list = []
+        loop_time = 0//初始时间
+        Mybird.style.display = 'none';
+        Scorebox.style.display = 'block';
+
+        setInterval(main_loop, render_frequecy);
+        btu.style.display = 'none';
+        head.style.display = 'none';
+        Mybird.style.display = 'block';
+    }
+
+    function main_loop() {
+        loop_time += 1;
+        move()
+        render()
+        scoreSet()
+        if (loop_time % block_create_interval == 0) {
+            create_block()
+        }
+        check()
+    }
+    
+    function move() {
+        // 移动鸟
+        mybird.y = mybird.y + mybird.v
+        if (mybird.y >= game_window_height)
+            mybird.y = game_window_height
+        mybird.v = mybird.v + mybird.g;
+
+        
+        // 移动柱子
+        for (var i = 0; i < jBlock_list.length; i++) {
+            b = document.getElementById(jBlock_list[i].id)
+            b.style.left = String(jBlock_list[i].x) + 'px'//移动
+            jBlock_list[i].x += block_default_v
+            if (jBlock_list[i].x >= 0) {
+                live_Block_list.push(jBlock_list[i])
+            }
+            else{
+                b.remove()
+            }
+        }
+        jBlock_list = live_Block_list;
+        live_Block_list =[]
+    }
+    
+    // 创建柱子
+    function create_block() {
+        all_height = game_window_height - block_space_interval//全长
+        random_v = Math.random()
+        // 创建上方柱子
+        let nblock = new Block1()
+        nblock.id = "block1_" + String(static_block_id)
+        static_block_id += 1
+        nblock.type = 0;
+        nblock.height = random_v * all_height
+        nblock.x = game_window_width
+        jBlock_list.push(nblock)
+
+        cb = document.createElement('div');
+        cb.setAttribute('id', nblock.id)
+        console.log(cb.id)
+        cb.style.top = 0
+        cb.style.left = cb.x
+        cb.style.height = String(nblock.height) + 'px';
+        cb.classList.add('block1')
+        game_board.appendChild(cb)
+
+        // 创建下方柱子
+        nblock = new Block2()
+        nblock.id = "block2_" + String(static_block_id)
+        static_block_id += 1
+        nblock.type = 0;
+        nblock.height = (1 - random_v) * all_height
+        nblock.x = game_window_width
+        jBlock_list.push(nblock)
+
+        cb = document.createElement('div');
+        cb.setAttribute('id', nblock.id)
+        console.log(cb.id)
+        cb.style.bottom = 0
+        cb.style.left = cb.x
+        cb.style.height = String(nblock.height) + 'px';
+        cb.classList.add('block2')
+        game_board.appendChild(cb)
+    }
+
+    //碰撞检测
+    function crash(a,b) {
+        var l1 = a.offsetLeft;
+        var t1 = a.offsetTop;
+        var r1 = l1 + a.offsetWidth;
+        var b1 = t1 + a.offsetHeight;
+
+        var l2 = b.offsetLeft;
+        var t2 = b.offsetTop;
+        var r2 = l2 + b.offsetWidth;
+        var b2 = t2 + b.offsetHeight;
+        if (r2<l1 || b2<t1 || r1<l2 || b1<t2) return false;
+        else  return true;
+    }
+
+    //检测函数
+    function check(){
+        for (var i = 0; i < jBlock_list.length; i++) {
+            b = document.getElementById(jBlock_list[i].id)
+            if(crash(b,bird)){
+                alert('gameover')
+                return;
+            }
+        }
+        if(bird.y<=0||bird.y>=game_window_height+130){
+            alert('gameover')
+            return;
+        }
+    }
+
+    //分数增加
+    function scoreSet(){
+        for (var i = 0; i < jBlock_list.length; i++) {
+            b = document.getElementById(jBlock_list[i].id)
+            if(b.offsetLeft == 200) {
+                score++;
+                var arr = (score + "").split("");
+                var number = "";
+                for (var i=0; i<arr.length; i++) {
+                    number += `<img src="img/${arr[i]}.png">`;
+                }
+                Scorebox.innerHTML = number;
+            }
+        }
+    }
+
+    function jump(evnet) {
+        mybird.v = mybird_jump_v;
+    }
+    function render() {
+        bird.style.top = String(mybird.y) + 'px';
+    }//设置鸟高度
+    
+</script>
+
+</html>
