@@ -1,7 +1,7 @@
 game_window_height = 800
 game_window_width = 1000
 
-render_frequecy = 50
+render_frequecy = 40
 
 mybird_default_y = 400
 mybird_default_g = 2

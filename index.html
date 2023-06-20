@@ -8,12 +8,16 @@
 <body>
     <div id="gameboard" onclick="jump()">
         <img id="head" src="img/head.png">
-        <div id="btu" onclick="start()"><img src="img\ok.png"></div>
+        <div id="btu" onclick="start()"><img src="img/ok.png"></div>
         <img id="Mybird" src="img/bird.gif">
-<<<<<<< HEAD
-        <div id="Scorebox"><img src="img\0.png"></div>
-=======
->>>>>>> 8dd342c6fe8b6aa37596f70ec56706af0fc89c0b
+        <div id="Scorebox"><img src="img/0.png"></div>
+
+        <div id="last">
+            <img id="over" src="img/over.png">
+            <img id="finalbox" src="img/final.png">
+            <div id="finalscore"><img src="img1/0.png"></div>
+            <div id="btu1" onclick="again()"><img src="img/ok.png"></div>
+        </div>
     </div>
 </body>
 
@@ -61,29 +65,48 @@
     }
 
     #btu {
-<<<<<<< HEAD
         width: 384px;
         height: 132px;
-=======
-        width: 192px;
-        height: 66px;
->>>>>>> 8dd342c6fe8b6aa37596f70ec56706af0fc89c0b
         position: relative;
         left: 300px;
     }
 
-<<<<<<< HEAD
     #Scorebox {
         position: absolute;
         text-align: center;
         left: 50%;
-        font-weight: bolder;
+        margin-top: 1rem;
+        height: 10px;
         display: none;
         z-index: 5;
     }
 
-=======
->>>>>>> 8dd342c6fe8b6aa37596f70ec56706af0fc89c0b
+    #last {
+        text-align: center;
+        margin-top: 10rem;
+        display: none;
+        position: relative;
+        z-index: 100;
+    }
+
+    #over {
+        width: 300px;
+        position: relative;
+    }
+
+    #finalbox {
+        margin: 4rem auto;
+        background-image: url(img/final.png);
+        position: relative;
+    }
+
+    #finalscore {
+        position: relative;
+        left: 20px;
+        top: -160px;
+    }
+
+
 </style>
 
 <script type="text/javascript">
@@ -100,15 +123,6 @@
     static_block_id = 0;//柱id
     class Block1 {
         id = "block1";
-<<<<<<< HEAD
-=======
-        x = 1000;
-        type = 1;
-        height = 0;
-    }
-    class Block2 {
-        id = "block2";
->>>>>>> 8dd342c6fe8b6aa37596f70ec56706af0fc89c0b
         x = 1000;
         type = 1;
         height = 0;
@@ -123,25 +137,19 @@
     jBlock_list = []
     live_Block_list = []
     loop_time = 0//初始时间
-<<<<<<< HEAD
     Mybird.style.display = 'none'
     score = 0 ;//分数
 
     function start(event) {
-        jBlock_list = []
-        live_Block_list = []
-        loop_time = 0//初始时间
+
         Mybird.style.display = 'none';
         Scorebox.style.display = 'block';
 
-        setInterval(main_loop, render_frequecy);
+        timer=setInterval(main_loop, render_frequecy);
         btu.style.display = 'none';
         head.style.display = 'none';
         Mybird.style.display = 'block';
     }
-=======
-    Mybird.style.display = 'none';
->>>>>>> 8dd342c6fe8b6aa37596f70ec56706af0fc89c0b
 
     function main_loop() {
         loop_time += 1;
@@ -219,18 +227,17 @@
         game_board.appendChild(cb)
     }
 
-<<<<<<< HEAD
     //碰撞检测
     function crash(a,b) {
-        var l1 = a.offsetLeft;
-        var t1 = a.offsetTop;
-        var r1 = l1 + a.offsetWidth;
-        var b1 = t1 + a.offsetHeight;
+        var l1 = a.offsetLeft
+        var t1 = a.offsetTop
+        var r1 = l1 + a.offsetWidth
+        var b1 = t1 + a.offsetHeight
 
-        var l2 = b.offsetLeft;
-        var t2 = b.offsetTop;
-        var r2 = l2 + b.offsetWidth;
-        var b2 = t2 + b.offsetHeight;
+        var l2 = b.offsetLeft
+        var t2 = b.offsetTop
+        var r2 = l2 + b.offsetWidth
+        var b2 = t2 + b.offsetHeight
         if (r2<l1 || b2<t1 || r1<l2 || b1<t2) return false;
         else  return true;
     }
@@ -240,12 +247,12 @@
         for (var i = 0; i < jBlock_list.length; i++) {
             b = document.getElementById(jBlock_list[i].id)
             if(crash(b,bird)){
-                alert('gameover')
+                GameOver();
                 return;
             }
         }
         if(bird.y<=0||bird.y>=game_window_height+130){
-            alert('gameover')
+            GameOver();
             return;
         }
     }
@@ -255,18 +262,16 @@
         for (var i = 0; i < jBlock_list.length; i++) {
             b = document.getElementById(jBlock_list[i].id)
             if(b.offsetLeft == 200) {
-                score++;
-                var arr = (score + "").split("");
-                var number = "";
-                for (var i=0; i<arr.length; i++) {
-                    number += `<img src="img/${arr[i]}.png">`;
+                score++
+                var a = (score + "").split("");
+                var number = ""
+                for (var i=0; i<a.length; i++) {
+                    number += `<img src="img/${a[i]}.png">`
                 }
                 Scorebox.innerHTML = number;
             }
         }
     }
-=======
->>>>>>> 8dd342c6fe8b6aa37596f70ec56706af0fc89c0b
 
     function jump(evnet) {
         mybird.v = mybird_jump_v;
@@ -274,16 +279,26 @@
     function render() {
         bird.style.top = String(mybird.y) + 'px';
     }//设置鸟高度
-<<<<<<< HEAD
-=======
-    function start(event) {
-        setInterval(main_loop, render_frequecy);
-        btu.style.display = 'none';
-        head.style.display = 'none';
-        Mybird.style.display = 'block';
-    }
->>>>>>> 8dd342c6fe8b6aa37596f70ec56706af0fc89c0b
     
+    //结束面板
+    function GameOver(){
+        clearInterval(timer);
+        var last = document.getElementById('last')
+        last.style.display='block';
+    
+        finalscore=document.getElementById('finalscore')
+        var a = (score + "").split("");
+        var number = ""
+        for (var i=0; i<a.length; i++) {
+            number += `<img src="img1/${a[i]}.png">`
+        }
+        finalscore.innerHTML = number;
+
+    }
+    function again(){
+        location.reload();
+    }
+
 </script>
 
 </html>
